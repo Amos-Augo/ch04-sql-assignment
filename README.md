@@ -10,7 +10,6 @@ This repository contains solutions for essential **SQL**  queries based on the b
 ch04-sql-assignment/
 ├── README.md
 ├── schema.sql
-├── seed_data.sql
 ├── 01_core_sql.sql
 ├── 02_advanced_sql.sql
 ├── 03_optimization.sql
@@ -18,12 +17,10 @@ ch04-sql-assignment/
 ```
 
 - **schema.sql**: Original tables from the assignment prompt.
-- **seed_data.sql**: Optional small dataset to test queries locally.
 - **01_core_sql.sql**: Q1–Q5.
 - **02_advanced_sql.sql**: Q6–Q10 (CTE, window functions, view, recursive CTE).
 - **03_optimization.sql**: Q11–Q12 (indexes and EXPLAIN).
 - **04_data_modeling.sql**: Q13–Q15 (3NF redesign, star schema, denormalization).
-
 
 ---
 ## Task-by-Task Reasoning
