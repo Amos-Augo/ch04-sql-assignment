@@ -166,7 +166,7 @@ END;
 -- Usage:
 CALL get_customers_spending_by_location('Nairobi');
 ```
-### Q10 (Recursive)
+### Q10: Recursive
 This query calculates a running total of sales by sales_id using a recursive CTE.
 It also uses ROW_NUMBER() to order sales ensuring we can calculate the running total even if sales_id is not sequential.
 
@@ -211,7 +211,7 @@ FROM running_total
 ORDER BY sales_id;  
 ```
 
-### Q11 (Optimization)
+### Q11: Optimization
 - Create an index on `sales(total_sales)` to accelerate range conditions.
 - Project necessary columns instead of `*`. Consider using `DECIMAL` for monetary values for precision and potentially better selectivity.
 
@@ -226,7 +226,7 @@ FROM sales
 WHERE total_sales > 5000;
 ```
 
-### Q12 (Index on location)
+### Q12: Index on location
 Indexing `customer_info(location)` accelerates equality filters by location. Use `EXPLAIN` to confirm index selection.
 ```sql
 CREATE INDEX IF NOT EXISTS idx_customer_info_location ON customer_info(location);
@@ -238,7 +238,7 @@ FROM customer_info
 WHERE location = 'Nairobi';
 ```
 
-### Q13 (3NF)
+### Q13: 3NF
 Separate entities (customers, products, sales headers, and line items). 
 Eliminate the dependency of `products` on a customer and avoid storing derived totals; compute from line items instead.
 
@@ -296,7 +296,7 @@ JOIN sales_line_item li ON li.sales_id = s.sales_id
 GROUP BY s.sales_id;
 ```
 
-### Q14 (Star Schema)
+### Q14: Star Schema
 Create dimensions (`dim_customer`, `dim_product`, `dim_location`, `dim_date`) with surrogate keys, and a `fact_sales` table storing measures (quantity, prices, totals). Optimized for analytics.
 
 ```sql
@@ -342,7 +342,7 @@ CREATE TABLE fact_sales (
 );
 ```
 
-### Q15 (Denormalization)
+### Q15: Denormalization
 *Scenario*: Reporting dashboards frequently query total spending per customer and location.
 To speed up these aggregate-heavy dashboards, maintain a denormalized aggregate table
 (e.g., via nightly ETL or materialized view refresh).
