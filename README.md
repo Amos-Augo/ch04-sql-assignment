@@ -1,8 +1,6 @@
 # ch04-sql-assignment
 
-This repository contains solutions for the **SQL Essentials for Data Engineering – CH04 Project Assignment**. It includes SQL scripts, views, window functions, a recursive CTE, stored procedures (PostgreSQL and MySQL variants), and data modeling artifacts (3NF redesign and a star schema).
-
-> **Note:** The base schema in `schema.sql` is copied from the assignment. Some modeling choices there (e.g., `products.customer_id`) are intentionally **corrected** in the 3NF redesign to reflect best practices.
+This repository contains solutions for the **SQL Essentials for Data Engineering. It includes SQL scripts, views, window functions, a recursive CTE, stored procedures, and data modeling artifacts (3NF redesign and a star schema).
 
 ---
 
