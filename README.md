@@ -30,7 +30,7 @@ ch04-sql-assignment/
 ---
 ## Task-by-Task Reasoning
 
-### Q1
+### Q1: List all customers located in Nairobi. Show only full_name and location.
 Filter by `location = 'Nairobi'` and project only the requested columns to minimize I/O.
 
 ```sql
@@ -39,7 +39,7 @@ FROM customer_info
 WHERE location = 'Nairobi';
 ```
 
-### Q2
+### Q2: Display each customer along with the products they purchased.
 Join `sales → customer_info → products` to reflect actual purchases. This captures which products were bought by which customers.
 
 ```sql
@@ -50,7 +50,7 @@ JOIN products p      ON p.product_id = s.product_id
 ORDER BY c.full_name, p.product_name;
 ```
 
-### Q3
+### Q3: Total sales amount for each customer (descending).
 Aggregate `sales.total_sales` per customer and sort descending to identify high spenders.
 
 ```sql
@@ -61,7 +61,7 @@ GROUP BY c.full_name
 ORDER BY total_spent DESC;
 ```
 
-### Q4
+### Q4: All customers who purchased products priced above 10,000.
 Filter by product price threshold and use `DISTINCT` to avoid listing the same customer multiple times for multiple qualifying purchases.
 
 ```sql
@@ -73,7 +73,7 @@ WHERE p.price > 10000
 ORDER BY c.full_name;
 ```
 
-### Q5
+### Q5: Top 3 customers with the highest total sales.
 Same as Q3, but limit to the top three customers after sorting by total spend.
 
 ```sql
@@ -85,8 +85,8 @@ ORDER BY total_spent DESC
 LIMIT 3;
 ```
 
-### Q6 (CTE)
-- First compute each customer’s total in a CTE. 
+### Q6: CTE
+- First we compute each customer’s total in a CTE. 
 - Cross-join to the overall average, then filter customers whose total exceeds the average. 
 
 ```sql
@@ -107,7 +107,7 @@ WHERE pc.total_spent > a.avg_total
 ORDER BY pc.total_spent DESC;
 ```
 
-### Q7 (Window)
+### Q7: Window Function
 Aggregate per product, then use `RANK()` window function over the totals. Window functions allow keeping aggregated values and rankings in the same result.
 
 ```sql
@@ -134,7 +134,7 @@ JOIN sales s ON p.product_id  = s.product_id
 GROUP BY p.product_name, p.product_id;
 ```
 
-### Q8 (View)
+### Q8: View
 Encapsulate the “high value” threshold (15,000) in a view. This makes the logic reusable and consistent across consumers.
 
 ```sql
@@ -150,12 +150,12 @@ GROUP BY c.customer_id, c.full_name, c.location
 HAVING SUM(s.total_sales) > 15000;
 ```
 
-### Q9 (Stored Procedure)
---- MySQL implementation
----How this works:
--- 1. The procedure accepts a location parameter.
--- 2. It aggregates total spending per customer in that location.
--- 3. It returns the full name and total spending, ordered by total spending descending.
+### Q9: Stored Procedure
+MySQL implementation
+We write a procedure that:
+i. accepts a location parameter.
+ii. aggregates total spending per customer in that location, and
+iii. returns the full name and total spending, ordered by total spending descending.
 
 ```sql
 CREATE PROCEDURE get_customers_spending_by_location(IN p_location VARCHAR(90))
@@ -172,10 +172,10 @@ END;
 CALL get_customers_spending_by_location('Nairobi');
 ```
 ### Q10 (Recursive)
--- This query calculates a running total of sales by sales_id using a recursive CTE.
--- It also uses ROW_NUMBER() to order sales ensures we can calculate the running total even if sales_id is not sequential.
+This query calculates a running total of sales by sales_id using a recursive CTE.
+It also uses ROW_NUMBER() to order sales ensuring we can calculate the running total even if sales_id is not sequential.
 
--- PostgreSQL implementation
+PostgreSQL implementation
 ```SQL
 WITH RECURSIVE ordered_sales AS (
   SELECT sales_id, total_sales,
@@ -198,7 +198,7 @@ FROM running
 ORDER BY sales_id;
 ```
 
---Assuming the sales_id is sequential, we can also use a simpler approach without ROW_NUMBER():
+Assuming the sales_id is sequential, we can also use a simpler approach without ROW_NUMBER():
 ```SQL
 WITH RECURSIVE running_total AS (
   SELECT sales_id, total_sales, total_sales AS running_total
@@ -274,7 +274,7 @@ CREATE TABLE sales (
 );
 ```
 We can then create a sales line items table allows one row per product in a sale. This allows multiple products per sale, with quantity and unit price at time of sale.
-It avoids storing total_sales directly in sale.
+It avoids storing `total_sales` directly in `sale`.
 Instead, `total_sales` is derived from line items (`quantity` * `unit_price`).
 
 ```sql
