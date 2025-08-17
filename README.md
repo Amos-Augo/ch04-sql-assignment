@@ -26,7 +26,7 @@ ch04-sql-assignment/
 ## Task-by-Task Reasoning
 
 ### Q1: List all customers located in Nairobi. Show only full_name and location.
-Filter by `location = 'Nairobi'` and project only the requested columns to minimize I/O.
+Filtering by `location = 'Nairobi'` and projecting only the requested columns to minimize I/O.
 
 ```sql
 SELECT full_name, location
@@ -35,7 +35,7 @@ WHERE location = 'Nairobi';
 ```
 
 ### Q2: Display each customer along with the products they purchased.
-Join `sales → customer_info → products` to reflect actual purchases. This captures which products were bought by which customers.
+Joining `sales → customer_info → products` to reflect actual purchases. This captures which products were bought by which customers.
 
 ```sql
 SELECT c.full_name, p.product_name, p.price
@@ -46,7 +46,7 @@ ORDER BY c.full_name, p.product_name;
 ```
 
 ### Q3: Total sales amount for each customer (descending).
-Aggregate `sales.total_sales` per customer and sort descending to identify high spenders.
+Aggregating `sales.total_sales` per customer and sorting descending to identify high spenders.
 
 ```sql
 SELECT c.full_name, SUM(s.total_sales) AS total_spent
@@ -57,7 +57,7 @@ ORDER BY total_spent DESC;
 ```
 
 ### Q4: All customers who purchased products priced above 10,000.
-Filter by product price threshold and use `DISTINCT` to avoid listing the same customer multiple times for multiple qualifying purchases.
+Filtering by product price threshold and using `DISTINCT` to avoid listing the same customer multiple times for multiple qualifying purchases.
 
 ```sql
 SELECT DISTINCT c.full_name, c.location
@@ -69,7 +69,7 @@ ORDER BY c.full_name;
 ```
 
 ### Q5: Top 3 customers with the highest total sales.
-Same as Q3, but limit to the top three customers after sorting by total spend.
+Same as Q3, but limited to the top three customers after sorting by total spend.
 
 ```sql
 SELECT c.full_name, SUM(s.total_sales) AS total_spent
@@ -81,7 +81,7 @@ LIMIT 3;
 ```
 
 ### Q6: CTE
-- First we compute each customer’s total in a CTE. 
+- First, we compute each customer’s total in a CTE. 
 - Cross-join to the overall average, then filter customers whose total exceeds the average. 
 
 ```sql
@@ -105,6 +105,7 @@ ORDER BY pc.total_spent DESC;
 ### Q7: Window Function
 Aggregate per product, then use `RANK()` window function over the totals. Window functions allow keeping aggregated values and rankings in the same result.
 
+Using a CTE:
 ```sql
 WITH per_product AS (
   SELECT p.product_id, p.product_name, SUM(s.total_sales) AS total_sales
