@@ -242,7 +242,7 @@ WHERE location = 'Nairobi';
 Separate entities (customers, products, sales headers, and line items). 
 Eliminate the dependency of `products` on a customer and avoid storing derived totals; compute from line items instead.
 
--- Customers
+Customers:
 ```sql
 CREATE TABLE customers (
   customer_id INT PRIMARY KEY,
@@ -251,7 +251,7 @@ CREATE TABLE customers (
 );
 ```
 
--- Products 
+Products:
 ```sql
 CREATE TABLE products (
   product_id   INT PRIMARY KEY,
@@ -259,7 +259,7 @@ CREATE TABLE products (
   list_price   DECIMAL(12,2)  -- List price (may differ from sale unit_price at time of sale)
 );
 ```
--- Sales (one row per sale/transaction)
+Sales (one row per sale/transaction):
 ```sql
 CREATE TABLE sales (
   sales_id    INT PRIMARY KEY,
@@ -297,7 +297,9 @@ GROUP BY s.sales_id;
 ```
 
 ### Q14: Star Schema
-Create dimensions (`dim_customer`, `dim_product`, `dim_location`, `dim_date`) with surrogate keys, and a `fact_sales` table storing measures (quantity, prices, totals). Optimized for analytics.
+Create dimensions (`dim_customer`, `dim_product`, `dim_location`, `dim_date`) with surrogate keys, and a `fact_sales` table storing measures (quantity, prices, totals).
+We use surrogate keys for dimensions and a fact table with numeric measures.
+A surrogate key is a unique identifier for each row in a dimension table, often an auto-incrementing integer.
 
 ```sql
 -- Dimension tables
