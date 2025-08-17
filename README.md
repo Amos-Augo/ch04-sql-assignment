@@ -118,8 +118,10 @@ SELECT
   RANK() OVER (ORDER BY total_sales DESC) AS rnk
 FROM per_product
 ORDER BY rnk;
+```
 
---Alternatively (including product_id)
+Alternatively (including product_id):
+```sql
 SELECT p.product_name, 
   p.product_id, 
 	SUM(s.total_sales) AS total, 
@@ -219,7 +221,7 @@ ORDER BY sales_id;
 -- Creating the index (PostgreSQL/MySQL compatible syntax):
 CREATE INDEX IF NOT EXISTS idx_sales_total_sales ON sales(total_sales);
 
--- Optimized query (project only necessary columns):
+-- Optimized query (projecting only necessary columns):
 EXPLAIN
 SELECT sales_id, total_sales, product_id, customer_id
 FROM sales
