@@ -25,7 +25,7 @@ ch04-sql-assignment/
 ---
 ## Task-by-Task Reasoning
 
-### Q1: List all customers located in Nairobi. Show only full_name and location.
+### Q1: List all customers located in Nairobi. Show only `full_name` and location.
 Filtering by `location = 'Nairobi'` and projecting only the requested columns to minimize I/O.
 
 ```sql
@@ -121,7 +121,7 @@ FROM per_product
 ORDER BY rnk;
 ```
 
-Alternatively (including product_id):
+Alternatively (including `product_id`):
 ```sql
 SELECT p.product_name, 
   p.product_id, 
@@ -170,8 +170,8 @@ END;
 CALL get_customers_spending_by_location('Nairobi');
 ```
 ### Q10: Recursive
-This query calculates a running total of sales by sales_id using a recursive CTE.
-It also uses ROW_NUMBER() to order sales ensuring we can calculate the running total even if sales_id is not sequential.
+This query calculates a running total of sales by `sales_id` using a recursive CTE.
+It also uses `ROW_NUMBER()` to order sales ensuring we can calculate the running total even if `sales_id` is not sequential.
 
 PostgreSQL implementation
 ```SQL
@@ -196,7 +196,7 @@ FROM running
 ORDER BY sales_id;
 ```
 
-Assuming the sales_id is sequential, we can also use a simpler approach without ROW_NUMBER():
+Assuming the `sales_id` is sequential, we can also use a simpler approach without `ROW_NUMBER()`:
 ```SQL
 WITH RECURSIVE running_total AS (
   SELECT sales_id, total_sales, total_sales AS running_total
@@ -242,7 +242,7 @@ WHERE location = 'Nairobi';
 ```
 
 ### Q13: 3NF
-Separate entities (customers, products, sales headers, and line items). 
+Separate entities (`customers`, `products`, `sales`, and line items). 
 Eliminate the dependency of `products` on a customer and avoid storing derived totals; compute from line items instead.
 
 Customers:
